@@ -44,6 +44,12 @@ You can additionally see in the bottom toolbar of VS Code which python interpret
 
 You can read a more detailed document about python environments in VSC [here](https://code.visualstudio.com/docs/python/environments).
 
+### Markdown Math
+You will notice that some of the READMEs contain something like:
+
+$$p(x) = \frac{1}{\sqrt{ 2 \pi \sigma^2 }}e^{ - \frac{ (x - \mu)^2 } {2 \sigma^2} }$$
+
+This is LaTeX style math markdown. Depending on the markdown viewer you use you might not see this rendered as math. To render this as LaTeX math inline in the markdown in VS Code, install the extension: `Markdown Math`. Then open the markdown file and click the icon with the magnifying glass over a book that pops up next to the filename in the editor. The rendered markdown appears to the right of your file.
 
 ## Using this repository
 Assignments are separated into folders. Each assignment folder contains the following files:
