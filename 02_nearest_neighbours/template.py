@@ -104,7 +104,7 @@ def weighted_vote(
     Given a list of nearest targets, vote for the most
     popular
     '''
-    # Remove if you don't go for bonus
+    # Remove if you don't go for independent section
     ...
 
 
@@ -118,7 +118,7 @@ def wknn(
     '''
     Combine k_nearest and vote
     '''
-    # Remove if you don't go for bonus
+    # Remove if you don't go for independent section
     ...
 
 
@@ -128,7 +128,7 @@ def wknn_predict(
     classes: list,
     k: int
 ) -> np.ndarray:
-    # Remove if you don't go for bonus
+    # Remove if you don't go for independent section
     ...
 
 
@@ -137,5 +137,5 @@ def compare_knns(
     targets: np.ndarray,
     classes: list
 ):
-    # Remove if you don't go for bonus
+    # Remove if you don't go for independent section
     ...

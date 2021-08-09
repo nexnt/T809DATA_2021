@@ -62,13 +62,12 @@ All your code should be turned in as a python script, i.e.
 * Use the supplied `template.py` file to fill in your code
 * Plots should be turned in as well. The naming convention for submitted plots is as follows: The Z-th plot under Section X.Y should be turned in as `X_Y_Z.png`
 
-## Bonus questions
-Some assignments will have *bonus sections*. In those assignments, the assignment itself counts 80% towards the assignment grade and the bonus section 20%. The idea behind the bonus questions is to allow you to use your intuition to add relevant insight to your assignment without clear instructions. Examples of this could be for example:
+## Questions based on independent work
+Some assignments will have *independent sections*. In those assignments, the assignment itself counts 80% towards the assignment grade and the independent section 20%. The idea behind the independent questions is to allow you to use your intuition to add relevant insight to your assignment without clear instructions. Examples of this could be for example:
 * Test your assignment code on a different dataset.
 * Compare performance across different parameter configurations.
 * Expand your model according to some hypothesis and compare performance to base model
 * Test your model on different amount of training data and comment on difference in performance
 * etc.
 
-[Assignment 1](01_decision_trees/README.md) and [Assignment 2](02_nearest_neighbors/README.md) have *pre-formulated bonus sections*. Here the bonus questions have already been formulated to give you an idea about what is suitable for the bonus sections in future assignments.
-TODO: Add notes about what should be returned for the bonus section, i.e. code, example of running, plots, text etc.
+[Assignment 1](01_decision_trees/README.md) and [Assignment 2](02_nearest_neighbors/README.md) have *pre-formulated independent sections*. Here the independent questions have already been formulated to give you an idea about what is suitable for the independent sections in future assignments.

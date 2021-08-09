@@ -19,7 +19,7 @@ The K-means algorithm has the following steps:
     $$
         J  = \sum_{n=1}^N \sum_{k=1}^K r_{nk} ||x_n - \mu_k ||^2
     $$
-   our goal is to find values for all $r_{nk}$ and all $\mu_k$ (our parameters) to minimize the value of $J$.  
+   our goal is to find values for all $r_{nk}$ and all $\mu_k$ (our parameters) to minimize the value of $J$.
    Here, we will be using the average distance from the points to their cluster means as the objective value (let's call it $\hat{J}$).
    $$
    \hat{J} = \frac{1}{N}\sum_{n=1}^N \sum_{k=1}^K r_{nk} || x_n - \mu_k ||
@@ -74,7 +74,7 @@ determine_r(dist)
 ```
 
 ### Section 1.3
-Create a function `determine_j(r, dist)` that calculates the value of the objective function, $\hat{J}$, given arrays of indicators and distances.  
+Create a function `determine_j(r, dist)` that calculates the value of the objective function, $\hat{J}$, given arrays of indicators and distances.
 
 Example inputs and outputs:
 ```
@@ -265,7 +265,7 @@ For only 50 points, this plot looks like the following. Notice how small the thi
 Turn in your plot as `3_2_1.png`.
 
 
-## Bonus
+## Independent section
 We have focused mostly on clustering in this assignment. We tried changing the value of $K$ but we mostly left `num_its` fixed. We only ran a single experiment on the same photo. We only tried it on a single dataset. Maybe there are other types of clustering techniques.
 
 Make an independent experiment of your choice and present your results and all added code with plots and figures is applicable.

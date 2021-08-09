@@ -106,5 +106,5 @@ Now make a similar plot to the one in section 2.4 but now with extremely randomi
 Upload your plot as `3_2_1.png`.
 
 
-### Bonus
-This is an open ended bonus section. You are welcome to analyze these models further, test them out on other datasets, compare parameters w.r.t. accuracy, recall, etc.
+### Independent section
+This is an open ended independent section. You are welcome to analyze these models further, test them out on other datasets, compare parameters w.r.t. accuracy, recall, etc.

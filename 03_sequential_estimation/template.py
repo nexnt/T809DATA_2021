@@ -45,7 +45,7 @@ def _plot_mean_square_error():
     ...
 
 
-# Naive solution to the bonus question.
+# Naive solution to the independent question.
 
 def gen_changing_data(
     n: int,
@@ -54,10 +54,10 @@ def gen_changing_data(
     end_mean: np.ndarray,
     var: float
 ) -> np.ndarray:
-    # remove this if you don't go for the bonus
+    # remove this if you don't go for the independent section
     ...
 
 
 def _plot_changing_sequence_estimate():
-    # remove this if you don't go for the bonus
+    # remove this if you don't go for the independent section
     ...

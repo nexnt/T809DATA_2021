@@ -250,7 +250,7 @@ Now train your network and test it on the Iris dataset. Use 80% (as usual) for t
 
 Present this and relevant discussion in a single PDF document.
 
-### Bonus
+### Independent section
 In this assignment we have created a naive neural network. This network could be changed in small ways that might have meaningful impact on performance. To name a few:
 1. The size of the hidden layer
 2. The learning rate

@@ -170,9 +170,9 @@ Log in to Kaggle, join the Titanic competition and submit your `.csv` file. Afte
 Upload this information.
 
 
-## Bonus section
+## Independent section
 There are many other types of models that we didn't try on this dataset that might work better. Maybe there are better parameter optimizations that could be done. Maybe the `get_titanic` function could be further improved?
 
-You decide what you do but the goal with the bonus section is to improve your kaggle score the most.
+You decide what you do but the goal with the independent section is to improve your kaggle score the most.
 
-Upload any code that you generated as part of the bonus assignment and a short summary of your experimentation, solution and results.
+Upload any code that you generated as part of the independent assignment and a short summary of your experimentation, solution and results.

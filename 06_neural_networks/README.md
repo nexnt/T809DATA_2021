@@ -35,7 +35,7 @@ Questions:
 3. Name three other domains where RNNs are suitable model types for regression/classification
 
 
-## Bonus
-This is an open ended bonus question. You are welcome to try other tutorials in the PyTorch documentation, design a model that achieves some task on Icelandic text, create your own model like the one in `example.py` or anything else you come up with.
+## Independent section
+This is an open ended independent question. You are welcome to try other tutorials in the PyTorch documentation, design a model that achieves some task on Icelandic text, create your own model like the one in `example.py` or anything else you come up with.
 
 Turn in your code and a PDF document with your experiments and results.

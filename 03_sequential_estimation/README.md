@@ -91,7 +91,7 @@ For a different distribution this plot looks like the following:
 
 Turn in your plot as `1_6_1.png`
 
-## Bonus Section
+## Independent Section
 What happens if the mean value changes (perhaps slowly) with time? What if  $\mu =(0,1,-1)$ moves to  $\mu=(1,-1,0)$ in 500 time ticks? How would we track the mean? Some sort of a forgetting could be added to the update equation. How would that be done?
 
 Create this type of data and formulate a method for tracking the mean.

@@ -100,7 +100,7 @@ linear_model(X, mu, sigma, wml)
  0.61914859 0.64629346 0.67533913 0.67677248 0.72763469 0.76905279]
 ```
 
-### Bonus
-This is a completely open ended bonus section. You are free to test out the methods in the assignment on different datasets, change the models, change parameters, make visualizations, analyze the models, or anything you desire.
+### Independent section
+This is a completely open ended independent section. You are free to test out the methods in the assignment on different datasets, change the models, change parameters, make visualizations, analyze the models, or anything you desire.
 
 Upload a short PDF document with your experiments and results. Upload all your added code as well.

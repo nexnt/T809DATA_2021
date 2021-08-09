@@ -129,8 +129,8 @@ You can use `_plot_cum_variance` for this. Submit your plot as `3_3_1.png`.
  Using your knowledge about PCA and your plots, can you explain why they look like they do? Explain why the eiginvalue plot has the trend that it does and the same for the cumulative variance plot.
 
 
- ## Bonus
- This is a completely independent bonus section.
+ ## Independent section
+ This is a completely independent section.
 
  Make an experiment of your choice, relevant to PCA, and present your results and all added code with plots and figures is applicable.
 

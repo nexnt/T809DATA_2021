@@ -123,8 +123,8 @@ class IrisTreeTrainer:
         ...
 
     def plot_progress(self):
-        # Bonus
-        # Remove this method if you don't go for bonus.
+        # Independent section
+        # Remove this method if you don't go for independent section.
         ...
 
     def guess(self):

@@ -136,5 +136,5 @@ Compare the results of your `train_test_SVM` function between linear, radial bas
 Which method seems to be the best for the task?
 
 
-## Bonus
-This is an open ended bonus question. You can choose to compare visually different parameters on the cancer dataset, different types of models, create your own data, etc.
+## Independent section
+This is an open ended independent question. You can choose to compare visually different parameters on the cancer dataset, different types of models, create your own data, etc.

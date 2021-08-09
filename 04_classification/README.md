@@ -105,8 +105,8 @@ Compare the accuracy of your `maximum_likelihood` and `maximum_aposteriori` by c
 2. How are the confusion matrices? Use your own code from assignment 1 and compare the matrices.
 3. How do you interpret the differences? Why is/is not a difference in accuracy?
 
-### Bonus Section
-*A rough idea of a bonus section idea is listed below. You are free to explore different approaches.*
+### Independent Section
+*A rough idea of an independent section idea is listed below. You are free to explore different approaches.*
 
 In what kind of situations would a posteriori classification be better than maximum likelihood classification? Find or create a dataset (or alter the Iris dataset) to make a posteriori classifications outperform maximum likelihood predictions.
 
