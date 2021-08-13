@@ -134,4 +134,4 @@ if __name__ == '__main__':
     #print(sample_gaussian_mixture([0.1, 1], [-1, 1], [0.9, 0.1],4))
     #print(sample_gaussian_mixture([0.1, 1, 1.5], [1, -1, 5], [0.1, 0.1, 0.8], 10))
 
-    plot_mixture_and_samples()
+    #plot_mixture_and_samples()
