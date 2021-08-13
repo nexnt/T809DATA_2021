@@ -20,7 +20,7 @@ def plot_normal(sigma: float, mu:float, x_start: float, x_end: float):
 
 
 
-def plot_three_normals():
+def _plot_three_normals():
     # Part 1.2
     plt.clf()
 
@@ -43,7 +43,7 @@ def normal_mixture(x: np.ndarray, sigmas: list, mus: list, weights: list):
     return result
     
         
-def compare_components_and_mixture():
+def _compare_components_and_mixture():
     # Part 2.2
     plt.clf()
     sigmas: list = [0.5, 1.5, 0.25]
@@ -84,7 +84,7 @@ def sample_gaussian_mixture(sigmas: list, mus: list, weights: list, n_samples: i
     return result
 
   
-def plot_mixture_and_samples():
+def _plot_mixture_and_samples():
     # Part 3.2
     n_samples_tot: list = [10, 100, 500, 1000]
     subplot: int = 141
@@ -124,14 +124,14 @@ if __name__ == '__main__':
  
 
     #plot_normal(0.5, 0, -2, 2)
-    #plot_three_normals()
+    #_plot_three_normals()
     #normal_mixture(np.linspace(-5, 5, 5), [0.5, 0.25, 1], [0, 1, 1.5], [1/3, 1/3, 1/3])
 
     #normal_mixture(np.linspace(-2, 2, 4), [0.5], [0], [1])
 
-    #compare_components_and_mixture()
+    #_compare_components_and_mixture()
 
     #print(sample_gaussian_mixture([0.1, 1], [-1, 1], [0.9, 0.1],4))
     #print(sample_gaussian_mixture([0.1, 1, 1.5], [1, -1, 5], [0.1, 0.1, 0.8], 10))
 
-    plot_mixture_and_samples()
+    _plot_mixture_and_samples()
