@@ -14,8 +14,9 @@ def plot_normal(sigma: float, mu:float, x_start: float, x_end: float):
     x_range = np.linspace(x_start, x_end, 500)
 
     
-    plt.plot(x_range, 1/np.sqrt(2 * np.pi * np.power(sigma, 2)) * np.exp(-np.power(x_range-mu, 2)/(2 * np.power(sigma, 2))), label=f'Power ')
+    plt.plot(x_range, 1/np.sqrt(2 * np.pi * np.power(sigma, 2)) * np.exp(-np.power(x_range-mu, 2)/(2 * np.power(sigma, 2))), label=f'Sigma:{sigma} Mu:{mu}')
 
+    plt.legend(loc='upper right')
 
 
 def _plot_three_normals():
@@ -25,6 +26,8 @@ def _plot_three_normals():
     plot_normal(0.5, 0, -5, 5)
     plot_normal(0.25, 1, -5, 5)
     plot_normal(1, 1.5, -5, 5)
+
+    
 
     plt.savefig("./00_introduction/1_2_1.png")
 
@@ -61,7 +64,8 @@ def _compare_components_and_mixture():
         
         result += weights[i]/np.sqrt(2 * np.pi * np.power(sigmas[i], 2)) * np.exp(-np.power(x_range-mus[i], 2)/(2 * np.power(sigmas[i], 2)))
 
-    plt.plot(x_range,result)
+    plt.plot(x_range,result, label=f'Mixture')
+    plt.legend(loc='upper right')
     plt.savefig("./00_introduction/2_2_1.png")
     plt.show()
 
@@ -117,20 +121,20 @@ def _plot_mixture_and_samples():
 
 if __name__ == '__main__':
 
-    print(normal(np.array([-1,0,1]), 1, 0))
+    #print(normal(np.array([-1,0,1]), 1, 0))
 
-    print(normal(0,1,0))
+    #print(normal(0,1,0))
  
 
-    plot_normal(0.5, 0, -2, 2)
-    _plot_three_normals()
-    normal_mixture(np.linspace(-5, 5, 5), [0.5, 0.25, 1], [0, 1, 1.5], [1/3, 1/3, 1/3])
+    #plot_normal(0.5, 0, -2, 2)
+    #_plot_three_normals()
+    #normal_mixture(np.linspace(-5, 5, 5), [0.5, 0.25, 1], [0, 1, 1.5], [1/3, 1/3, 1/3])
 
-    normal_mixture(np.linspace(-2, 2, 4), [0.5], [0], [1])
+    #normal_mixture(np.linspace(-2, 2, 4), [0.5], [0], [1])
 
     _compare_components_and_mixture()
 
-    print(sample_gaussian_mixture([0.1, 1], [-1, 1], [0.9, 0.1],4))
-    print(sample_gaussian_mixture([0.1, 1, 1.5], [1, -1, 5], [0.1, 0.1, 0.8], 10))
+    #print(sample_gaussian_mixture([0.1, 1], [-1, 1], [0.9, 0.1],4))
+    #print(sample_gaussian_mixture([0.1, 1, 1.5], [1, -1, 5], [0.1, 0.1, 0.8], 10))
 
-    _plot_mixture_and_samples()
+    #_plot_mixture_and_samples()
