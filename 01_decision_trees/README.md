@@ -3,15 +3,15 @@ The aim project is to implement your own decision tree and then apply it to a da
 
 **About the Iris dataset**:
 The dataset contains features a set of four dimensional feature vectors $(x_1,..,x_n)\in \mathbb{R}^4$ and corresponding target classes $(c_1,..,c_n)\in (0, 1, 2)$. The classes correspond to three different types of iris flowers:
-* $1$ : Iris Setosa
-* $2$ : Iris Versicolour
-* $3$ : Iris Virginica
+* $0$ : Iris Setosa
+* $1$ : Iris Versicolour
+* $2$ : Iris Virginica
 
 and the features correspond to different attributes that are shared across these flowers:
 * $x_{i1}$ is sepal length in centimeters
 * $x_{i2}$ is sepal width in centimeters
-* $x_{i2}$ is petal length in centimeters
-* $x_{i2}$ is petal width in centimeters
+* $x_{i3}$ is petal length in centimeters
+* $x_{i4}$ is petal width in centimeters
 
 The complete dataset contains 150 samples of flowers, 50 of each type.
 
@@ -37,7 +37,7 @@ Write the function `prior(targets, classes)` that calculates the prior probabili
 
 Example inputs and outputs:
 * `prior([0, 0, 1], [0, 1])` -> `[2/3, 1/3]`
-* `prior([0, 2, 3, 3], [0, 1, 2, 3])` -> `[1/4, 1/1/4, 0 , 2/4]`
+* `prior([0, 2, 3, 3], [0, 1, 2, 3])` -> `[1/4, 0, 1/4, 2/4]`
 
 ### Part 1.2
 Let's assume that we have have made a split and create two data sets for the descendent nodes of the root node. For the sake of argument, let's say the we split so that features with $x_{ik}<\theta$ is in $S_0$ and the other samples are in $S_1$.
