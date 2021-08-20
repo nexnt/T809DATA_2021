@@ -37,7 +37,7 @@ Write the function `prior(targets, classes)` that calculates the prior probabili
 
 Example inputs and outputs:
 * `prior([0, 0, 1], [0, 1])` -> `[2/3, 1/3]`
-* `prior([0, 2, 3, 3], [0, 1, 2, 3])` -> `[1/4, 1/1/4, 0 , 2/4]`
+* `prior([0, 2, 3, 3], [0, 1, 2, 3])` -> `[1/4, 0, 1/4, 2/4]`
 
 ### Part 1.2
 Let's assume that we have have made a split and create two data sets for the descendent nodes of the root node. For the sake of argument, let's say the we split so that features with $x_{ik}<\theta$ is in $S_0$ and the other samples are in $S_1$.
