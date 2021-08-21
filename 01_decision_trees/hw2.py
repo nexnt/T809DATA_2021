@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.core.defchararray import array
 from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import confusion_matrix
 
 from tools import load_iris, split_train_test
 
@@ -180,32 +181,77 @@ class IrisTreeTrainer:
             (self.test_features, self.test_targets) =\
             split_train_test(features, targets, train_ratio)
 
+
         self.classes = classes
-        self.features = features
-        self.targets = targets
         self.tree = DecisionTreeClassifier()
 
     def train(self):
-        return self.tree.fit(self.features, self.targets)
+        self.tree.fit(self.train_features, self.train_targets)
 
     def accuracy(self):
-        ...
+        #print(self.test_targets)
+        acc = self.tree.score(self.test_features, self.test_targets)
+        return acc
+        #return accuracy_score(self.test_targets, self.guess())
 
     def plot(self):
-        plot_tree
+        plot_tree(self.tree)
         plt.show()
         plt.savefig("./01_decision_trees/2_3_1.png")
 
     def plot_progress(self):
         # Independent section
         # Remove this method if you don't go for independent section.
+        acc = []
+        n = []
+
+        for i in range(1,len(self.train_features)):
+            n.append(i)
+            
+            trunc_features = self.train_features[:i]
+            trunc_targets = self.train_targets[:i]
+
+
+            self.tree.fit(trunc_features, trunc_targets)
+            a = self.tree.score(self.test_features, self.test_targets)
+            #print(acc)
+            acc.append(a)
+
+            #plot_tree(self.tree)
+            
+            #plt.savefig("./01_decision_trees/test.png")
+            #break
+
+        plt.clf()
+        plt.plot(n,acc)
+        plt.show()
+        plt.savefig("./01_decision_trees/bonus_1.png")
+
+        
         ...
 
     def guess(self):
-        return self.tree.predict(self.features)
+        #print(self.test_targets)
+        return self.tree.predict(self.test_features)
+        
 
     def confusion_matrix(self):
-        ...
+
+        #for i in self.test_targets:
+        cm = np.zeros((len(self.classes),len(self.classes)))
+
+        for i in self.classes:
+            for k in self.classes:
+                if i==k:
+                    cm[i,k] = np.count_nonzero((self.test_targets == self.guess())[self.test_targets == k])
+                else:
+                    cm[i,k] = np.count_nonzero(np.logical_and(self.test_targets != self.guess(), self.test_targets == i, self.guess() == k))
+                    #print(self.test_targets != self.guess() and self.test_targets == i and self.guess() == k)
+                    #cm[i,k] = np.any((self.test_targets != self.guess())[self.test_targets == i & self.guess() == k])
+                
+        return cm
+
+
 
 
 #prior([0, 0, 1], [0, 1])
@@ -224,11 +270,14 @@ features, targets, classes = load_iris()
 
 #IrisTreeTrainer(features, targets, classes)
 
-features, targets, classes = load_iris()
 dt = IrisTreeTrainer(features, targets, classes=classes)
 dt.train()
 #print(f'The accuracy is: {dt.accuracy()}')
 dt.plot()
-print(f'I guessed: {dt.guess()}')
+#print(dt.guess())
 #print(f'The true targets are: {dt.t_test}')
-#print(dt.confusion_matrix())
+dt.confusion_matrix()
+
+
+dt = IrisTreeTrainer(features, targets, classes=classes, train_ratio=0.6)
+dt.plot_progress()
