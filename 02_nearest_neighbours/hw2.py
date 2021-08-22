@@ -206,9 +206,15 @@ def weighted_vote(
     Given a list of nearest targets, vote for the most
     popular
     '''
+    arr = np.stack((targets, distances), axis=-1)
+    classsum = np.zeros((len(classes),1))
+    for i in classes:
+        for k in range(len(arr)):
+            if arr[k,0] == i:
+                classsum[i] += 1/arr[k,1]
 
- 
-
+        ...
+    '''
     arr = np.stack((targets, distances), axis=-1)
     bla = np.zeros((len(classes),1))
     sum = 0
@@ -216,16 +222,10 @@ def weighted_vote(
 
         bla[targets[i]] += 1/distances[i]
         sum += bla[targets[i]]
+    '''
 
-    
+    return classes[np.argmax(classsum)]
 
-    weighted = bla/sum
-    print(weighted)
-    print(np.amax(weighted))
-
-    result = np.where(weighted == np.amax(weighted))
-
-    return result[1]
             
 
 
@@ -240,15 +240,15 @@ def wknn(
     '''
     Combine k_nearest and vote
     '''
-    nearest= k_nearest(x, points, k)
+    nearest = k_nearest(x, points, k)
     
     pointsvotetarget = np.take(point_targets, nearest)
     pointsvote = np.take(points, nearest, 0)
     distances = euclidian_distances(x, pointsvote)
     
-    weighted_vote(pointsvotetarget, distances, classes)
+    
 
-    return vote(pointsvotetarget, classes)
+    return weighted_vote(pointsvotetarget, distances, classes)
 
 
 def wknn_predict(
@@ -257,8 +257,19 @@ def wknn_predict(
     classes: list,
     k: int
 ) -> np.ndarray:
-    # Remove if you don't go for independent section
-    ...
+    prediction = []
+
+    for i in range(len(points)):
+        points_2 = remove_one(points, i)
+        targets_2 = remove_one(point_targets, i)
+        x = points[i,:]
+        #print(x)
+
+        currentprediction = wknn(x, points_2, targets_2, classes, k)
+        
+        prediction.append(currentprediction)
+
+    return prediction
 
 
 def compare_knns(
@@ -266,9 +277,24 @@ def compare_knns(
     targets: np.ndarray,
     classes: list
 ):
-    # Remove if you don't go for independent section
-    ...
+    acc1 = []
+    acc2 = []
+    n = []
 
+    for i in range(1,len(points)):
+        n.append(i)
+
+        accknn = accuracy_score(targets, knn_predict(points, targets, classes, i))
+        accwknn = accuracy_score(targets, wknn_predict(points, targets, classes, i))
+        acc1.append(accknn)
+        acc2.append(accwknn)
+
+        
+    plt.clf()
+    plt.plot(n,acc1)
+    plt.plot(n,acc2)
+    plt.show()
+    plt.savefig("./02_nearest_neighbours/b_4_1.png")
 
 d, t, classes = load_iris()
 x, points = d[0,:], d[1:, :]
@@ -307,3 +333,6 @@ knn_confusion_matrix(d_test, t_test, classes, 20)
 #best_k(d_train, t_train, classes)
 
 knn_plot_points(d_train, t_train, classes, 3)
+
+
+compare_knns(d_train, t_train, classes)
