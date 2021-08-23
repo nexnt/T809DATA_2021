@@ -151,7 +151,7 @@ dt.train()
 print(f'The accuracy is: {dt.accuracy()}')
 dt.plot()
 print(f'I guessed: {dt.guess()}')
-print(f'The true targets are: {dt.t_test}')
+print(f'The true targets are: {dt.test_targets}')
 print(dt.confusion_matrix())
 ```
 
