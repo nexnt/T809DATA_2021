@@ -156,15 +156,39 @@ Submit yours as `2_5_1.png`.
 
 The [Weighted Nearest Neighbour algorithm](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm#The_weighted_nearest_neighbour_classifier) (wkNN) expands on the kNN algorithm by weighing votes.
 
-The intuition used in wkNN is that neighbours that are really close should have a bigger say in the classfication than neighbours far away.
+The intuition used in wkNN is that neighbours that are really close should have a bigger say in the classification than neighbours far away.
 
 In wkNN, the prediction $\hat{y}_i$ for a given point $x_i$ is
 
 $$
-\hat{y}_i = \frac{c_1y_1 + c_2y_2 + ... + c_ky_k}{\sum_{j=1}^{k} c_j}
+\hat{y}_i = \underset{d}{\text{arg max}} \frac{c_1y_1 + c_2y_2 + ... + c_ky_k}{\sum_{j=1}^{k} c_j}
 $$
 
-where $y_j$ is the vote made by neighour $i$ and $c_j$ is the corresponding weight. But how should the weights be formalized? The weight should be large when the neighbour is close to $x_i$ and small when far away. The simplest way to achieve this is to say that
+where $y_j$ is the vote made by neighour $j$ and $c_j$ is the corresponding weight. For brevity we have opted for a vector-representation of the vote here. That is, a vote for a 3 class classification task ($d=3$), a vote for class 0 is represented as
+
+$$
+    \begin{bmatrix}
+    1 \\ 0 \\ 0
+    \end{bmatrix}
+$$
+
+For example, lets say we have 2 votes for class 0 and 1 vote for class 2. The sum above then has the following expansion:
+
+$$
+
+\frac{c_1}{\sum c_j}\begin{bmatrix}
+    1 \\ 0 \\ 0
+    \end{bmatrix} + \frac{c_2}{\sum c_j}\begin{bmatrix}
+    1 \\ 0 \\ 0
+    \end{bmatrix} + \frac{c_3}{\sum c_j}\begin{bmatrix}
+    0 \\ 0 \\ 1
+    \end{bmatrix}
+$$
+
+We then choose the vote based on the highest magnitude dimension (i.e. $\underset{d}{\text{arg max}}$), which in the short example above would be the first dimension corresponding to class 0.
+
+
+But how should the weights be formalized? The weight should be large when the neighbour is close to $x_i$ and small when far away. The simplest way to achieve this is to say that
 
 $$
 c_j = \frac{1}{\text{distance}(x_i, x_j)}
