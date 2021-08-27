@@ -225,6 +225,8 @@ class IrisTreeTrainer:
         plt.clf()
         plt.plot(n,acc)
         plt.show()
+        plt.ylabel("Accuracy")
+        plt.xlabel("Training features used")
         plt.savefig("./01_decision_trees/bonus_1.png")
 
         

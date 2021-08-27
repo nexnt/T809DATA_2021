@@ -183,13 +183,15 @@ def knn_plot_points(
     colors = ['yellow', 'purple', 'blue']
     for i in range(points.shape[0]):
         [x, y] = points[i,:2]
+        
         if predictions[i] == point_targets[i]:
             plt.scatter(x, y, c=colors[point_targets[i]], edgecolors='green', linewidths=2)
         else:
             plt.scatter(x, y, c=colors[point_targets[i]], edgecolors='red', linewidths=2)
 
     plt.title('Yellow=0, Purple=1, Blue=2')
-
+    plt.xlabel("Sepal length [cm]")
+    plt.ylabel("Sepal width [cm]")
     plt.show()
     plt.savefig("./02_nearest_neighbours/2_5_1.png")
 
@@ -293,7 +295,10 @@ def compare_knns(
     plt.clf()
     plt.plot(n,acc1)
     plt.plot(n,acc2)
+    plt.ylabel("Accuracy")
+    plt.xlabel("k nearest neighbours used")
     plt.show()
+
     plt.savefig("./02_nearest_neighbours/b_4_1.png")
 
 d, t, classes = load_iris()
@@ -301,17 +306,17 @@ x, points = d[0,:], d[1:, :]
 x_target, point_targets = t[0], t[1:]
 
 
-euclidian_distance(x, points[0])
+#euclidian_distance(x, points[0])
 
-euclidian_distances(x, points)
+#euclidian_distances(x, points)
 
-k_nearest(x, points, 3)
+#k_nearest(x, points, 3)
 
 #vote(np.array([0,0,1,2]), np.array([0,1,2]))
 #vote(np.array([1,1,1,1]), np.array([0,1]))
 
 
-wknn(x, points, point_targets, classes, 5)
+#wknn(x, points, point_targets, classes, 5)
 #knn(x, points, point_targets, classes, 150)
 
 
@@ -320,14 +325,14 @@ d, t, classes = load_iris()
 
 #knn([5.1, 3.4, 1.5, 0.2], remove_one(d_test, 4), point_targets, classes, 1)
 
-predictions = knn_predict(d_test, t_test, classes, 10)
+#predictions = knn_predict(d_test, t_test, classes, 10)
 #predictions = knn_predict(d_test, t_test, classes, 5)
 
-knn_accuracy(d_test, t_test, classes, 10)
-knn_accuracy(d_test, t_test, classes, 5)
+#knn_accuracy(d_test, t_test, classes, 10)
+#knn_accuracy(d_test, t_test, classes, 5)
 
-knn_confusion_matrix(d_test, t_test, classes, 10)
-knn_confusion_matrix(d_test, t_test, classes, 20)
+#knn_confusion_matrix(d_test, t_test, classes, 10)
+#knn_confusion_matrix(d_test, t_test, classes, 20)
 
 
 #best_k(d_train, t_train, classes)
