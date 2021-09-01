@@ -181,7 +181,7 @@ def change_iris(
     ...
 
 def test_accuracy2():
-    red_features, red_targets = change_iris(train_features, train_targets, 2, 0.85)
+    red_features, red_targets = change_iris(train_features, train_targets, 2, 0.6)
     #red_features, red_targets = change_iris(red_features, red_targets, 2, 0.2)
     acc1, acc2 = [],[]
     

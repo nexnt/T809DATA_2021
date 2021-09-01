@@ -8,6 +8,10 @@ def sigmoid(x: float) -> float:
     '''
     Calculate the sigmoid of x
     '''
+    if x<-100:
+        return 0.0
+    else:
+        return 1/(1+np.exp(-x))
     ...
 
 
@@ -15,6 +19,7 @@ def d_sigmoid(x: float) -> float:
     '''
     Calculate the derivative of the sigmoid of x.
     '''
+    return np.exp(-x)/np.power(1+np.exp(-x),2)
     ...
 
 
@@ -27,6 +32,8 @@ def perceptron(
     the result of applying the sigmoid activation
     to the weighted sum
     '''
+    res = np.dot(x,w)
+    return res, sigmoid(res)
     ...
 
 
@@ -41,7 +48,17 @@ def ffnn(
     Computes the output and hidden layer variables for a
     single hidden layer feed-forward neural network.
     '''
+
+    a1 = np.zeros((1,M))
+    a2 = np.zeros((1,K))
+
+    z0 = np.zeros((1,len(x)+1))
+    z1 = np.zeros((1,M+1))
+    y = np.zeros((1,K))
+
+    return y, z0, z1, a1, a2
     ...
+
 
 
 def backprop(
@@ -92,3 +109,23 @@ def test_nn(
     in the test set X.
     '''
     ...
+
+
+#print(sigmoid(0.5))
+#print(d_sigmoid(0.2))
+
+#print(perceptron(np.array([1.0, 2.3, 1.9]),np.array([0.2,0.3,0.1])))
+
+features, targets, classes = load_iris()
+(train_features, train_targets), (test_features, test_targets) = \
+    split_train_test(features, targets)
+
+# Take one point:
+x = train_features[0, :]
+K = 3 # number of classes
+M = 10
+D=len(train_features[0, :])
+# Initialize two random weight matrices
+W1 = 2 * np.random.rand(D + 1, M) - 1
+W2 = 2 * np.random.rand(M + 1, K) - 1
+y, z0, z1, a1, a2 = ffnn(x, M, K, W1, W2)
