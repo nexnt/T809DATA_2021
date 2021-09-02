@@ -12,8 +12,8 @@ def estimate_covariance():
         [0.05, 0.10],
     ])
     # 'It seems like these values are correlated, lets plot.
-    plt.scatter(values[:, 0], values[:, 1])
-    plt.show()
+    #plt.scatter(values[:, 0], values[:, 1])
+    #plt.show()
     # We can see from the plot that the values are indeed
     # somewhat correlated. Lets print the covariance matrix
     print(np.cov(values, rowvar=False))
@@ -28,8 +28,8 @@ def estimate_covariance():
         [9.05, 0.10],
     ])
     # These variables don't seem that correlated. Lets plot again.
-    plt.scatter(values[:, 0], values[:, 1])
-    plt.show()
+    #plt.scatter(values[:, 0], values[:, 1])
+    #plt.show()
     # The values are all over the place! Lets print the covariance
     # matrix
     print(np.cov(values, rowvar=False))
@@ -56,8 +56,38 @@ def pdf():
     # from this distribution
 
 
+def scatter_3d_data(data: np.ndarray):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(data[:, 0], data[:, 1], data[:, 2])
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('z')
+    plt.show()
+
+def bar_per_axis(data: np.ndarray):
+    for i in range(data.shape[1]):
+        plt.subplot(1, data.shape[1], i+1)
+        plt.hist(data[:, i], 100)
+        plt.title(f'Dimension {i+1}')
+    plt.show()
+
+
 if __name__ == '__main__':
     print('Running estimate_covariance: ')
     estimate_covariance()
     print('Running pdf: ')
     pdf()
+
+    plt.clf
+    mean = np.array([0.01, 0.001, 0.0021])
+    cov = np.array([[0.5, 0.0, 0.0], [0.0, 0.3, 0.0], [0.0, 0.0, 0.4]])
+
+
+
+
+#bar_per_axis(data)
+data=np.random.multivariate_normal(mean, cov, 1000)
+print(data)
+
+print(multivariate_normal(mean=mean, cov=cov).pdf([0.01,0.02,0.031]))

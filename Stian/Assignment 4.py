@@ -122,3 +122,38 @@ def maximum_aposteriori(
             for z in zip(means, covs, priors)
         ])
     return np.array(likelihoods)
+
+
+features, targets, classes = load_iris()
+(train_features, train_targets), (test_features, test_targets)\
+    = split_train_test(features, targets, train_ratio=0.6)
+
+class_mean = mean_of_class(train_features, train_targets, 0)
+class_cov = covar_of_class(train_features, train_targets, 0)
+likelihood_of_class(test_features[0, :], class_mean, class_cov)
+
+
+
+
+
+
+# Feature Scaling
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X_train = sc.fit_transform(train_features)
+X_test = sc.transform(train_features)
+
+# Training the Naive Bayes model on the Training set
+from sklearn.naive_bayes import GaussianNB
+classifier = GaussianNB()
+classifier.fit(train_features, train_targets)
+
+# Predicting the Test set results
+y_pred = classifier.predict(test_features)
+
+# Making the Confusion Matrix
+from sklearn.metrics import confusion_matrix, accuracy_score
+ac = accuracy_score(test_targets,y_pred)
+cm = confusion_matrix(test_targets, y_pred)
+
+print(ac, cm)
