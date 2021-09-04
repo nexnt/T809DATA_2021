@@ -183,3 +183,19 @@ def test_nn(
         y, z0, z1, a1, a2 = ffnn(x, M, K, W1, W2)
         guesses[i] = np.argmax(y)
     return guesses
+
+features, targets, classes = load_iris()
+(train_features, train_targets), (test_features, test_targets) = \
+    split_train_test(features, targets)
+
+K = 3  # number of classes
+M = 6
+D = train_features.shape[1]
+np.random.seed(42)
+# Initialize two random weight matrices
+W1 = 2 * np.random.rand(D + 1, M) - 1
+W2 = 2 * np.random.rand(M + 1, K) - 1
+W1tr, W2tr, Etotal, misclassification_rate, last_guesses = train_nn(
+    train_features[:20, :], train_targets[:20], M, K, W1, W2, 100, 0.3)
+
+print(misclassification_rate)

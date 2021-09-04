@@ -143,8 +143,8 @@ def _plot_changing_sequence_estimate():
     plt.plot([e[1] for e in estimates], label='Second dimension')
     plt.plot([e[2] for e in estimates], label='Third dimension')
     plt.legend(loc='upper center')
-    plt.title('Plot sequence estimate Mean: 0, 1, -1  Sigma: Sqrt(3)')
-    plt.xlabel("Estimate based on span of 50 datapoints")
+    plt.title('Plot sequence estimate Mean: 0, 1, -1 to 1, -1, 0  Sigma: Sqrt(3)')
+    plt.xlabel("Estimate based on range of 50 datapoints")
     plt.ylabel("Mean")
     plt.savefig("./03_sequential_estimation/bonus_1.png")
     plt.show()
@@ -163,7 +163,7 @@ def _plot_changing_sequence_estimate():
 
 
 #gen_changing_data(500, 3, np.array([0, 1, -1]), np.array([1,-1,0]), np.sqrt(3))
-_plot_changing_sequence_estimate()
+#_plot_changing_sequence_estimate()
 
 
 #gen_data(2, 3, np.array([0, 1, -1]), 1.3)
@@ -171,8 +171,8 @@ _plot_changing_sequence_estimate()
 #gen_data(5, 1, np.array([0.5]), 0.5)
 
 points = gen_data(300, 3, np.array([0, 1, -1]), np.sqrt(3))
-scatter_3d_data(points)
-bar_per_axis(points)
+#scatter_3d_data(points)
+#bar_per_axis(points)
 
 X = points
 
@@ -181,7 +181,11 @@ new_x = gen_data(1, 3, np.array([0, 0, 0]), 1)
 
 #print(new_x)
 #print(mean)
-update_sequence_mean(mean, new_x, X.shape[0])
-_plot_sequence_estimate()
+#update_sequence_mean(mean, new_x, X.shape[0])
+#_plot_sequence_estimate()
 
-_plot_mean_square_error()
+#_plot_mean_square_error()
+
+mean = np.mean(X, 0)
+new_x = gen_data(1, 3, np.array([0, 0, 0]), 1)
+print(update_sequence_mean(mean, new_x, X.shape[0]))

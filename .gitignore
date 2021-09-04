@@ -131,3 +131,10 @@ dmypy.json
 # Pyre type checker
 .pyre/
 DATA.code-workspace
+
+
+data/
+
+06_neural_networks/data/
+06_neural_networks/data_text/
+data_text.zip
