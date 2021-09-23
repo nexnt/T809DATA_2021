@@ -195,6 +195,8 @@ def test_nn(
 
 #print(perceptron(np.array([1.0, 2.3, 1.9]),np.array([0.2,0.3,0.1])))
 
+print(perceptron(np.array([0.2,0.4]),np.array([0.1,0.4])))
+
 features, targets, classes = load_iris()
 (train_features, train_targets), (test_features, test_targets) = \
     split_train_test(features, targets)
@@ -203,6 +205,7 @@ features, targets, classes = load_iris()
 x = train_features[0, :]
 K = 3 # number of classes
 M = 10
+np.random.seed(42)
 D=len(train_features[0, :])
 # Initialize two random weight matrices
 W1 = 2 * np.random.rand(D + 1, M) - 1
@@ -215,7 +218,7 @@ print(z0)
 print(z1)
 print(a1)
 print(a2)
-
+'''
 target_y = [1,0,0]
 
 K = 3  # number of classes
@@ -235,7 +238,7 @@ W2 = 2 * np.random.rand(M + 1, K) - 1
 
 y, dE1, dE2 = backprop(x, target_y, M, K, W1, W2)
 
-'''
+
 
 
 
@@ -328,7 +331,7 @@ def testit():
 
     for nodes in range(1,20,1):
         print(nodes)
-        for iter in range(1,500,10):
+        for iter in list(range(1,80,1))+list(range(81,500,10)):
             print(iter)
 
             W1 = 2 * np.random.rand(D + 1, nodes) - 1
@@ -351,8 +354,14 @@ def testit():
     surf = ax.plot_trisurf(iters, nodess, acc, cmap=cm.coolwarm, linewidth=0, antialiased=False)
     ax.zaxis.set_major_locator(LinearLocator(10))
     
+    ax.set_xlabel('Iterations')
+    ax.set_ylabel('Nodes in NN')
+
+    ax.set_zlabel('Accuracy')
+
     fig.colorbar(surf, shrink=0.5, aspect=5)
-    ax.set_zlim(0, 0.8)
+    ax.set_zlim(0, 1)
+    plt.savefig("./05_backprop/Bonus_2_1.png")
     plt.show()
     '''
     plt.plot(nodess,acc, label='Accuracy')    
@@ -422,4 +431,4 @@ def testit2():
     #plt.savefig("./05_backprop/Bonus_1.png")
     plt.show()
     '''
-testit2()
+#testit2()
