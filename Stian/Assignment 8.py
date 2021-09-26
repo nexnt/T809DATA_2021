@@ -15,7 +15,7 @@ def _plot_linear_kernel():
     clf.fit(X,t)
     plot_svm_margin(clf, X, t)
     plt.show()
-
+_plot_linear_kernel()
 def _subplot_svm_margin(
     svc,
     X: np.ndarray,

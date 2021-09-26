@@ -1,6 +1,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from numpy.core.numeric import identity
 
 from tools import load_regression_iris
 from scipy.stats import multivariate_normal
@@ -30,11 +31,20 @@ def mvn_basis(
     N, D = features.shape
     M,D = mu.shape
     fi = np.zeros((N,M))
-    
+    cov = sigma*np.identity(D)
+    for i in range(N):
+        for j in range(M):
+            fi[i,j] = multivariate_normal.pdf(features[i,:], mean=mu[j,:], cov=cov)
+    return fi
 
 def _plot_mvn():
-    ...
+    plt.clf()
+    plt.figure(figsize=(15, 10))
+    plt.plot(fi)
+    
+    #plt.show()
 
+    plt.savefig("07_linear_models/1_2_1.png")
 
 def max_likelihood_linreg(
     fi: np.ndarray,
@@ -51,6 +61,8 @@ def max_likelihood_linreg(
 
     Output: [Mx1], the maximum likelihood estimate of w for the linear model
     '''
+    N,M = np.shape(fi)
+    return np.matmul(np.matmul(np.linalg.inv(np.matmul(np.transpose(fi), fi)+lamda*np.identity(M)),np.transpose(fi)), targets)
     ...
 
 
@@ -72,6 +84,8 @@ def linear_model(
 
     Output: [Nx1] The prediction for each data vector in features
     '''
+    fi = mvn_basis(features, mu, sigma)
+    return np.matmul(fi, np.transpose(w))
     ...
 
 
@@ -81,13 +95,21 @@ N, D = X.shape
 M, sigma, i = 10, 10, 0
 mu = np.zeros((M, D))
 while i < D:
-    print(X[i, :])
+    #print(X[i, :])
     mmin = np.min(X[i, :])
     mmax = np.max(X[i, :])
     mu[:, i] = np.linspace(mmin, mmax, M)
     i += 1
 
 print(mu)
+
 fi = mvn_basis(X, mu, sigma)
 
-print(X)
+
+_plot_mvn()
+
+lamda = 0.001
+wml = max_likelihood_linreg(fi, t, lamda) # as before
+print(linear_model(X, mu, sigma, wml))
+
+
