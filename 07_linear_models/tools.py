@@ -17,6 +17,7 @@ def load_regression_iris():
     return iris.data[:, 0:3], iris.data[:, 3]
 
 
+
 def split_train_test(
     features: np.ndarray,
     targets: np.ndarray,
@@ -28,7 +29,7 @@ def split_train_test(
     where the number of items in the training set is according
     to the given train_ratio
     '''
-    np.random.seed(42)
+    
     p = np.random.permutation(features.shape[0])
     features = features[p]
     targets = targets[p]
