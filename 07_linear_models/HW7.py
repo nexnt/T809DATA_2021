@@ -101,15 +101,20 @@ while i < D:
     mu[:, i] = np.linspace(mmin, mmax, M)
     i += 1
 
-print(mu)
+#print(mu)
 
 fi = mvn_basis(X, mu, sigma)
 
 
-_plot_mvn()
+#_plot_mvn()
 
 lamda = 0.001
 wml = max_likelihood_linreg(fi, t, lamda) # as before
-print(linear_model(X, mu, sigma, wml))
+pred = linear_model(X, mu, sigma, wml)
+print(pred)
+
+
+
+print(np.size(t))
 
 
