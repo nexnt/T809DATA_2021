@@ -68,12 +68,15 @@ class GKR:
     
     '''Implement the Gaussian Kernel'''
     def gaussian_kernel(self, z):
+        #print((1/np.sqrt(2*np.pi))*np.exp(-0.5*z**2))
         return (1/np.sqrt(2*np.pi))*np.exp(-0.5*z**2)
     
     '''Calculate weights and return prediction'''
     def predict(self, X):
         kernels = np.array([self.gaussian_kernel((np.linalg.norm(xi-X))/self.b) for xi in self.x])
+        #print(kernels)
         weights = np.array([len(self.x) * (kernel/np.sum(kernels)) for kernel in kernels])
+        #print(weights)
         return np.dot(weights.T, self.y)/len(self.x)
     
 
@@ -91,3 +94,5 @@ for d in d_test:
 
 print(metrics.mean_squared_error(t_test,np.array(pred)))
 
+print(pred)
+print(t_test)
