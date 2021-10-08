@@ -97,17 +97,17 @@ def train_test_SVM(
 
 
 
-X, t = load_regression_diabetes()
-#X, t = load_regression_iris()
+#X, t = load_regression_diabetes()
+X, t = load_regression_iris()
 
 (d_train, t_train), (d_test, t_test) = split_train_test(X, t, train_ratio=0.7)
 iter=0
 
 
-for g in np.linspace(0.01, 2, num=5):
+for c in np.linspace(0.04, 0.3, num=10):
 
     res=[]
-    for c in np.linspace(0.01, 0.4, num=50):
+    for g in np.linspace(0.001, 0.3, num=50):
 
         msqrs, times = [], []
         for n in range(20):    
@@ -122,17 +122,17 @@ for g in np.linspace(0.01, 2, num=5):
         res.append([mean(msqrs), mean(times), c, g])
         iter=iter+1
     res=np.array(res)
-    plt.plot(res[:,2],res[:,0], label='Gamma = {}'.format(g))
+    plt.plot(res[:,3],res[:,0], label='C = {}'.format(round(c, 3)))
 
 res=np.array(res)
 
 #plt.clf()
-plt.title('Relationship between C and Score of testdata prediction for each C')
+plt.title('Relationship between Gamma and Score \nof testdata prediction for different values of C')
 #plt.plot(res[:,2],res[:,0])
-plt.xlabel("Value of C")
+plt.xlabel("Value of Gamma")
 plt.ylabel("Score")
 plt.legend(loc='lower right')
 
-plt.savefig("./08_SVM/bonus_2.png")
+plt.savefig("./08_SVM/bonus_1.png")
 plt.show()
 
