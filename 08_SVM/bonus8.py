@@ -91,44 +91,48 @@ def train_test_SVM(
     
     y = svc.predict(X_test)
     end = timeit.default_timer()
-    print(end-start)
-    return metrics.mean_squared_error(t_test,y), end-start
-
-#_plot_linear_kernel()
-#_compare_gamma()
-#_compare_C()
+    #print(end-start)
+    #metrics.mean_squared_error(t_test,y)
+    return svc.score(d_test,t_test), end-start
 
 
-
-res=np.empty((50,3))
 
 X, t = load_regression_diabetes()
-X, t = load_regression_iris()
+#X, t = load_regression_iris()
 
 (d_train, t_train), (d_test, t_test) = split_train_test(X, t, train_ratio=0.7)
 iter=0
 
-for c in np.linspace(0.01, 0.4, num=50):
 
-    msqrs, times = [], []
-    for n in range(20):    
-        X, t = load_regression_iris()
+for g in np.linspace(0.01, 2, num=5):
 
-        (d_train, t_train), (d_test, t_test) = split_train_test(X, t, train_ratio=0.7)
-        svc = svm.SVR(kernel='rbf',C=c)
-        msqr, time = train_test_SVM(svc, d_train, t_train, d_test, t_test)
-        msqrs.append(msqr)
-        times.append(time)
-        print(c,n)
-    res[iter] = [mean(msqrs), mean(times), c] 
-    iter=iter+1
+    res=[]
+    for c in np.linspace(0.01, 0.4, num=50):
 
-plt.clf()
-plt.title('Relationship between C and Mean Squared Error\n averaged over 20 itereations per value of C')
-plt.plot(res[:,2],res[:,0])
+        msqrs, times = [], []
+        for n in range(20):    
+            X, t = load_regression_iris()
+
+            (d_train, t_train), (d_test, t_test) = split_train_test(X, t, train_ratio=0.7)
+            svc = svm.SVR(kernel='rbf',C=c, gamma=g)
+            msqr, time = train_test_SVM(svc, d_train, t_train, d_test, t_test)
+            msqrs.append(msqr)
+            times.append(time)
+            print(c,n)
+        res.append([mean(msqrs), mean(times), c, g])
+        iter=iter+1
+    res=np.array(res)
+    plt.plot(res[:,2],res[:,0], label='Gamma = {}'.format(g))
+
+res=np.array(res)
+
+#plt.clf()
+plt.title('Relationship between C and Score of testdata prediction for each C')
+#plt.plot(res[:,2],res[:,0])
 plt.xlabel("Value of C")
-plt.ylabel("Mean Squared Error")
+plt.ylabel("Score")
+plt.legend(loc='lower right')
 
-plt.savefig("./08_SVM/bonus_1.png")
+plt.savefig("./08_SVM/bonus_2.png")
 plt.show()
 

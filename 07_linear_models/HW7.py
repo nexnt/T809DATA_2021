@@ -43,6 +43,11 @@ def _plot_mvn():
     plt.plot(fi)
     
     #plt.show()
+    plt.title('Basis Functions 1 thru 10')
+    plt.xlabel("Number of point")
+    plt.ylabel("Value of fi")
+
+
 
     plt.savefig("07_linear_models/1_2_1.png")
 
@@ -114,7 +119,7 @@ pred = linear_model(X, mu, sigma, wml)
 print(pred)
 
 
-
+_plot_mvn()
 print(np.size(t))
 
 

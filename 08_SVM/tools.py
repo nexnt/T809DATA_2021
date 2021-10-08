@@ -81,4 +81,4 @@ def plot_svm_margin(
         svc.support_vectors_[:, 0],
         svc.support_vectors_[:, 1],
         s=100, linewidth=1, facecolors='none', edgecolors='k')
-    plt.show()
+

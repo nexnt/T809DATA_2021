@@ -17,10 +17,16 @@ def _plot_linear_kernel():
     clf = svm.SVC(kernel='linear',C=1000)
     clf.fit(X,t)
     plot_svm_margin(clf, X, t)
-    #plt.show()
-    #plt.savefig("08_SVM/1_1_1.png")
+    plt.gcf
+    plt.title("Linear Kernel")
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
+    plt.savefig("08_SVM/1_1_1.png")
+    plt.show()
 
 
+
+_plot_linear_kernel()
 def _subplot_svm_margin(
     svc,
     X: np.ndarray,
@@ -44,8 +50,14 @@ def _subplot_svm_margin(
     # and index is the index of the current plot being generated
     
     plt.subplot(1,num_plots,index)
+    
 
     plt.scatter(X[:, 0], X[:, 1], c=t, s=30, cmap=plt.cm.Paired)
+
+
+    
+
+
 
     # plot the decision function
     ax = plt.gca()
@@ -80,8 +92,10 @@ def _subplot_svm_margin(
 
 
 def _compare_gamma():
+
     X, t = make_blobs(n_samples=40, centers=2, random_state=6)
 
+    
     clf = svm.SVC(kernel='rbf',C=1000)
     clf.fit(X,t)
     
@@ -89,12 +103,16 @@ def _compare_gamma():
     anchored_text = AnchoredText("Gamma: {}".format(clf.gamma) , loc=3)
     ax = plt.gca()
     ax.add_artist(anchored_text)
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
 
 
     clf = svm.SVC(kernel='rbf',C=1000, gamma=0.2)
     clf.fit(X,t)
     ...
     _subplot_svm_margin(clf, X, t, 3, 2)
+    plt.xlabel("Feature 1")
+    plt.title('Compare Gamma')
     anchored_text = AnchoredText("Gamma: {}".format(clf.gamma) , loc=3)
     ax = plt.gca()
     ax.add_artist(anchored_text)
@@ -103,16 +121,24 @@ def _compare_gamma():
     clf.fit(X,t)
 
     _subplot_svm_margin(clf, X, t, 3, 3)
+    plt.xlabel("Feature 1")
     anchored_text = AnchoredText("Gamma: {}".format(clf.gamma) , loc=3)
     ax = plt.gca()
     ax.add_artist(anchored_text)
+
+
+
+
     plt.savefig("08_SVM/1_3_1.png")
     plt.show()
 
 
 def _compare_C():
+
+
     X, t = make_blobs(n_samples=40, centers=2, random_state=6)
     plt.figure(figsize=(15,10)) 
+    plt.title('Compare C')
     clf = svm.SVC(kernel='linear',C=1000)
     clf.fit(X,t)
 
@@ -123,13 +149,17 @@ def _compare_C():
     clf = svm.SVC(kernel='linear',C=0.5)
     clf.fit(X,t)
 
+    plt.xlabel("Feature 1")
+    plt.ylabel("Feature 2")
+
     _subplot_svm_margin(clf, X, t, 5, 2)
     anchored_text = AnchoredText("C: {}".format(clf.C) , loc=3)
     ax = plt.gca()
     ax.add_artist(anchored_text)
     clf = svm.SVC(kernel='linear',C=0.3)
     clf.fit(X,t)
-    
+    plt.xlabel("Feature 1")
+
 
     _subplot_svm_margin(clf, X, t, 5, 3)
     anchored_text = AnchoredText("C: {}".format(clf.C) , loc=3)
@@ -137,18 +167,23 @@ def _compare_C():
     ax.add_artist(anchored_text)
     clf = svm.SVC(kernel='linear',C=0.05)
     clf.fit(X,t)
-
+    plt.xlabel("Feature 1")
+    plt.title('Compare C')
     _subplot_svm_margin(clf, X, t, 5, 4)
     anchored_text = AnchoredText("C: {}".format(clf.C) , loc=3)
     ax = plt.gca()
     ax.add_artist(anchored_text)
     clf = svm.SVC(kernel='linear',C=0.0001)
     clf.fit(X,t)
+    plt.xlabel("Feature 1")
 
     _subplot_svm_margin(clf, X, t, 5, 5)
     anchored_text = AnchoredText("C: {}".format(clf.C) , loc=3)
     ax = plt.gca()
     ax.add_artist(anchored_text)
+    plt.xlabel("Feature 1")
+
+    
     plt.savefig("08_SVM/1_5_1.png")
     plt.show()
 
@@ -178,14 +213,14 @@ def train_test_SVM(
 #_plot_linear_kernel()
 #_compare_gamma()
 #_compare_C()
-
+#_compare_gamma()
 
 
 res=np.empty((3,4))
 
 fcns=['linear', 'rbf', 'poly']
 
-
+'''
 
 for i in range(3):
     accs, precs, recs, times = [], [], [], []
@@ -214,3 +249,4 @@ tab = np.append(np.array(fcns), res, axis=1)
 
 print (tabulate(tab, headers=a))
 
+'''
