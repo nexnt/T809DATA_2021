@@ -170,3 +170,8 @@ def _plot_extreme_oob_error():
     plt.ylabel("OOB error rate")
     plt.legend(loc="upper right")
     plt.show()
+
+
+classifier_type = DecisionTreeClassifier
+cc = CancerClassifier(classifier_type)
+print(cc.accuracy())

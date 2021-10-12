@@ -71,10 +71,10 @@ def build_kaggle_submission(prediction):
     kaggle compatible submission and save it to disk
     at ./data/your_submission.csv`.
     '''
-    test = pd.read_csv('./data/test.csv')
+    test = pd.read_csv('./10_boosting/data/test.csv')
     submission = pd.concat(
         [test.PassengerId, pd.DataFrame(prediction)],
         axis='columns')
     submission.columns = ["PassengerId", "Survived"]
-    submission.to_csv('./data/your_submission.csv', header=True, index=False)
-    print('Your submission can be found at ./data/your_submission.csv')
+    submission.to_csv('./10_boosting/data/your_submission.csv', header=True, index=False)
+    print('Your submission can be found at ./10_boosting/data/your_submission.csv')
