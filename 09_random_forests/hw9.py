@@ -217,27 +217,57 @@ print("Confmat cross: ",cc.cross_validation_cm())
 def find_largest():
     res = []
 
-    for e in range(1,10):
+    for e in range(100,400,50):
         
-        for f in range(1,30):
+        for f in range(1,30,5):
             print(e,f)    
             classifier_type = RandomForestClassifier(n_estimators=e, max_features=f)
             cc = CancerClassifier(classifier_type)
             res.append([e,f,cc.accuracy(),cc.precision(),cc.recall(),cc.cross_validation_accuracy()])
 
     res=np.array(res)
-    index = np.argsort(res[:,5],)
+    index = np.argsort(res[:,2],)
     #print(res[index[::-1]][:3])
 
     return res[index[::-1]][:1]
 
 
 
-#bla = find_largest()
+bla = find_largest()
 
-#print(bla)
+print(bla)
+
+
+
+classifier_type = RandomForestClassifier()
+cc = CancerClassifier(classifier_type)
+
+
+
+
+print("CM: ",cc.confusion_matrix())
+print("Accuracy: ",np.round(cc.accuracy(),4))
+print("Precision: ",np.round(cc.precision(),4))
+print("Recall: ",np.round(cc.recall(),4))
+print("Cross validation: ",np.round(cc.cross_validation_accuracy(),4))
+print("Confmat cross: ",cc.cross_validation_cm())
+
+
+
+
+classifier_type = RandomForestClassifier(n_estimators=371, max_features=9)
+cc = CancerClassifier(classifier_type)
+
+print("CM: ",cc.confusion_matrix())
+print("Accuracy: ",np.round(cc.accuracy(),4))
+print("Precision: ",np.round(cc.precision(),4))
+print("Recall: ",np.round(cc.recall(),4))
+print("Cross validation: ",np.round(cc.cross_validation_accuracy(),4))
+print("Confmat cross: ",cc.cross_validation_cm())
+
 
 '''
+
 classifier_type = RandomForestClassifier(n_estimators=9, max_features=13)
 cc = CancerClassifier(classifier_type)
 
@@ -259,6 +289,8 @@ print("Precision: ",np.round(cc.precision(),4))
 print("Recall: ",np.round(cc.recall(),4))
 print("Cross validation: ",np.round(cc.cross_validation_accuracy(),4))
 print("Confmat cross: ",cc.cross_validation_cm())
-'''
 
-_plot_extreme_oob_error()
+
+#_plot_extreme_oob_error()
+
+'''
