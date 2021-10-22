@@ -64,10 +64,9 @@ class CancerClassifier:
         return cross_val_score(self.classifier, self.X, self.t, cv=10).mean()
 
     def cross_validation_cm(self) -> float:
-        '''Returns the average 10-fold cross validation
-        accuracy on the entire dataset.
-        '''
+
         y_pred = cross_val_predict(self.classifier, self.X, self.t, cv=10)
+
         conf_mat = confusion_matrix(self.t, y_pred)
         return conf_mat
 
@@ -86,7 +85,7 @@ class CancerClassifier:
         plt.ylabel("Feature importance")
         plt.title("Feature importances for the current classifier")
         plt.savefig("09_random_forests/3_1_1.png")
-        #plt.show()
+        plt.show()
         print(self.header[index])
         return index
 
@@ -233,9 +232,9 @@ def find_largest():
 
 
 
-bla = find_largest()
+#bla = find_largest()
 
-print(bla)
+#print(bla)
 
 
 
@@ -266,8 +265,8 @@ print("Cross validation: ",np.round(cc.cross_validation_accuracy(),4))
 print("Confmat cross: ",cc.cross_validation_cm())
 
 
-'''
 
+'''
 classifier_type = RandomForestClassifier(n_estimators=9, max_features=13)
 cc = CancerClassifier(classifier_type)
 

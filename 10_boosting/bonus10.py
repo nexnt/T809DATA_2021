@@ -406,6 +406,91 @@ def param_search_DT(X, y):
     # Print the best parameters and lowest RMSE
     return results.best_params_, results.best_score_
 
+def param_search(X, y):
+    '''
+    Perform randomized parameter search on the
+    gradient boosting classifier on the dataset (X, y)
+    '''
+    # Create the parameter grid
+    bla = range(1,100,1)
+    blub = range(1,32,1)
+    lr = linspace(0.05,0.5,100)
+    mins = np.linspace(0.1, 1.0, 10, endpoint=True)
+    minsl = np.linspace(0.1, 0.5, 5, endpoint=True)
+    max_features = range(1,32,32)
+
+    gb_param_grid = {
+        'n_estimators': bla,
+        'max_depth': blub,
+        'learning_rate': lr,
+        #'min_samples_split': mins,
+        #'min_samples_leaf': minsl,
+        #'max_features': max_features
+        #'n_estimators': sp_randInt(1,500),
+        #'max_depth': sp_randInt(2, 10),
+        #'learning_rate': sp_randFloat()
+        #range(100,400,50)
+        }
+    # Instantiate the regressor
+    gb = GradientBoostingClassifier()
+    # Perform random search
+    gb_random = RandomizedSearchCV(
+        param_distributions=gb_param_grid,
+        estimator=gb,
+        scoring="f1",
+        verbose=0,
+        n_iter=500,
+        cv=4,
+        n_jobs=-1)
+    # Fit randomized_mse to the data
+    gb_random.fit(X, y)
+    # Print the best parameters and lowest RMSE
+    return gb_random.best_params_
+
+def param_search_extra(X, y):
+    '''
+    Perform randomized parameter search on the
+    gradient boosting classifier on the dataset (X, y)
+    '''
+    # Create the parameter grid
+    bla = range(200,500,10)
+    blub = range(1,10,2)
+    lr = linspace(0.05,0.5,10)
+    mins = range(2, 15, 3)
+    minsl = range(2, 15, 3)
+    max_features = range(1,32,2)
+
+    et_param_grid = {
+        'n_estimators': bla,
+        'max_depth': blub,
+        #'learning_rate': lr,
+        'min_samples_split': mins,
+        'min_samples_leaf': minsl,
+        #'max_features': max_features
+        #'n_estimators': sp_randInt(1,500),
+        'max_features': max_features,
+        #'learning_rate': sp_randFloat()
+        #range(100,400,50)
+        }
+    # Instantiate the regressor
+    et = ExtraTreesClassifier()
+    # Perform random search
+    et_random = RandomizedSearchCV(
+        param_distributions=et_param_grid,
+        estimator=et,
+        scoring="f1",
+        verbose=0,
+        n_iter=500,
+        cv=4,
+        n_jobs=-1)
+    # Fit randomized_mse to the data
+    et_random.fit(X, y)
+    # Print the best parameters and lowest RMSE
+    return et_random.best_params_
+
+
+
+
 
 def _create_submission(res):
     '''Create your kaggle submission
@@ -492,21 +577,20 @@ sub_reduced = model.transform(submission_X)
 #print(param_search_GB(train_reduced, tr_y))
 
 
+'''
 
 clf1 = DecisionTreeClassifier(criterion = 'gini', max_depth = None, max_features = 5, min_samples_leaf = 4)
 clf2 = KNeighborsClassifier(metric= 'manhattan', n_neighbors= 12, weights= 'distance')
 clf3 = svm.SVC(C = 336.65633965721327, gamma = 0.010393303078475516, kernel = 'rbf', probability = True )
 clf4 = GradientBoostingClassifier(learning_rate = 0.20666807393051, max_depth = 4, n_estimators = 16, subsample = 0.5852835816723386)
 clf5 = RandomForestClassifier(n_estimators = 200, min_samples_split = 2, min_samples_leaf = 4, max_features = 'auto', max_depth = 50, bootstrap = True)
-clf6 = svm.SVC(kernel='linear', probability=True)
-clf7 = svm.SVC(kernel='poly', probability=True)
 clf8 = AdaBoostClassifier(learning_rate = 0.0737370583165543, n_estimators = 276)
 
 clf4 = GradientBoostingClassifier()
 clf5 = RandomForestClassifier()
 clf8 = AdaBoostClassifier()
 
-eclf = VotingClassifier(estimators=[('dt', clf1), ('knn', clf2), ('svc', clf3), ('GB', clf4), ('rf', clf5), ('ada', clf8)], voting='soft')
+#eclf = VotingClassifier(estimators=[('dt', clf1), ('knn', clf2), ('svc', clf3), ('GB', clf4), ('rf', clf5), ('ada', clf8)], voting='hard')
 
 eclf = VotingClassifier(estimators=[ ('GB', clf4), ('rf', clf5), ('ada', clf8)], voting='hard')
 
@@ -516,7 +600,7 @@ eclf.fit(tr_X, tr_y)
 y_pred = eclf.predict(tst_X)
 y_predsub = eclf.predict(submission_X)
 acc = accuracy_score(tst_y, y_pred)
-print(acc)
+print(np.mean(cross_val_score(eclf, tr_X, tr_y)))
 
 
 
@@ -525,14 +609,13 @@ eclf.fit(train_reduced, tr_y)
 y_pred = eclf.predict(test_reduced)
 y_predsub = eclf.predict(sub_reduced)
 acc = accuracy_score(tst_y, y_pred)
-print(acc)
+print(np.mean(cross_val_score(eclf, train_reduced, tr_y)))
 
 build_kaggle_submission(y_predsub)
 
 
 
 
-'''
 for clf, label in zip([clf1, clf2, clf3, clf4, clf5, clf6, clf7, clf8, eclf], ['dt', 'knn', 'svcrbf', 'gb', 'rf', 'svcl', 'svcp', 'ada', 'Ensemble']):
     scores = cross_val_score(clf, tr_X, tr_y, scoring='accuracy', cv=5)
     print("Accuracy: %0.2f (+/- %0.2f) [%s]" % (scores.mean(), scores.std(), label))
@@ -558,7 +641,7 @@ for model in models:
     print('CV score = {0}'.format(score))
     print('****')
 
-'''
+
 
 run_gs = False
 
@@ -589,24 +672,39 @@ if run_gs:
     print('Best parameters: {}'.format(grid_search.best_params_))
     
 else: 
-    parameters = {'bootstrap': False, 'min_samples_leaf': 3, 'n_estimators': 50, 
-                  'min_samples_split': 10, 'max_features': 'sqrt', 'max_depth': 6}
+    parameters = {'bootstrap': True, 'max_depth': 8, 'max_features': 'auto', 'min_samples_leaf': 3, 'min_samples_split': 2, 'n_estimators': 10}
     
     model = RandomForestClassifier(**parameters)
     model.fit(tr_X, tr_y)
 
+    y_pred = model.predict(tst_X)
+    y_predsub = model.predict(submission_X)
+    acc = accuracy_score(tst_y, y_pred)
+    print(np.mean(cross_val_score(model, tr_X, tr_y)))
 
 
+res = param_search(tr_X, tr_y)
+print(res)
 
-print(tr_X.head)
-new_data = tr_X
+res = {'n_estimators': 88, 'max_depth': 8, 'learning_rate': 0.09090909090909091}
+c = GradientBoostingClassifier(**res)
+c.fit(tr_X, tr_y)
+y_pred = c.predict(tst_X)
 
-clf = ExtraTreesClassifier(n_estimators=500, max_depth = 5)
+acc = accuracy_score(tst_y, y_pred)
+print(np.mean(cross_val_score(c, tr_X, tr_y)))
+
+'''
+res = param_search_extra(tr_X, tr_y)
+print(res)
+
+
+clf = ExtraTreesClassifier(**res)
 clf.fit(tr_X, tr_y)
 y=clf.predict(tst_X)
 
 y_sub=clf.predict(submission_X)
 acc = accuracy_score(tst_y, y)
 print(acc)
-
+print(np.mean(cross_val_score(clf, tr_X, tr_y)))
 build_kaggle_submission(y_sub)

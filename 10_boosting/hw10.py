@@ -36,7 +36,7 @@ def get_better_titanic():
     # Concatenate the train and test set into a single dataframe
     # we drop the `Survived` column from the train set
     X_full = pd.concat([train.drop('Survived', axis=1), test], axis=0)
-
+    
     # The cabin category consist of a letter and a number.
     # We can divide the cabin category by extracting the first
     # letter and use that to create a new category. So before we
@@ -63,7 +63,12 @@ def get_better_titanic():
     # location
     X_full['Embarked'].fillna('S', inplace=True)
 
-    X_full['Age'].fillna(X_full.Age.mean(), inplace=True)
+    
+
+
+
+
+
 
 
     # We then use the get_dummies function to transform text
@@ -73,6 +78,22 @@ def get_better_titanic():
         columns=['Sex', 'Cabin_mapped', 'Embarked'],
         drop_first=True)
 
+
+    
+    X_dummies['Age'].fillna(X_dummies.Age.mean(), inplace=True)
+    '''
+    X_Age = X_dummies[X_dummies.Age.notna()].drop(['Age'], axis=1)
+    y_Age = X_dummies[X_dummies.Age.notna()]['Age']
+    X_pred = X_dummies[X_dummies.Age.isna()].drop(['Age'], axis=1)
+
+    print(X_dummies[X_dummies.Age.notna()].drop(['Age'], axis=1))
+    from sklearn import svm
+    c = svm.SVR(kernel='rbf')
+    c.fit(X_Age,y_Age)
+    #X_dummies[X_dummies['Age'].isna()]['Age'] = c.predict(X_pred)
+
+    X_dummies.loc[X_dummies.Age.isna(),'Age'] = c.predict(X_pred)
+    '''
     # We now have the cleaned data we can use in the assignment
     X = X_dummies[:len(train)]
     submission_X = X_dummies[len(train):]
@@ -80,7 +101,7 @@ def get_better_titanic():
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=.3, random_state=5, stratify=y)
 
-    print(y)
+    #print(y)
     return (X_train, y_train), (X_test, y_test), submission_X
 
 def rfc_train_test(X_train, t_train, X_test, t_test):
@@ -89,7 +110,7 @@ def rfc_train_test(X_train, t_train, X_test, t_test):
     and evaluate it on (X_test, t_test)
     '''
 
-    c = RandomForestClassifier()
+    c = RandomForestClassifier(max_features='log2')
     c.fit(X_train, t_train)
     y_pred = c.predict(X_test)
 
@@ -120,18 +141,32 @@ def param_search(X, y):
     gradient boosting classifier on the dataset (X, y)
     '''
     # Create the parameter grid
+    bla = range(1,100,1)
+    blub = range(1,32,1)
+    lr = linspace(0.05,0.5,100)
+    mins = np.linspace(0.1, 1.0, 10, endpoint=True)
+    minsl = np.linspace(0.1, 0.5, 5, endpoint=True)
+    max_features = range(1,32,32)
+
     gb_param_grid = {
-        'n_estimators': sp_randInt(1,500),
-        'max_depth': sp_randInt(4, 10),
-        'learning_rate': sp_randFloat(),
-        "subsample"    : sp_randFloat()}
+        'n_estimators': bla,
+        'max_depth': blub,
+        'learning_rate': lr,
+        #'min_samples_split': mins,
+        #'min_samples_leaf': minsl,
+        #'max_features': max_features
+        #'n_estimators': sp_randInt(1,500),
+        #'max_depth': sp_randInt(2, 10),
+        #'learning_rate': sp_randFloat()
+        #range(100,400,50)
+        }
     # Instantiate the regressor
     gb = GradientBoostingClassifier()
     # Perform random search
     gb_random = RandomizedSearchCV(
         param_distributions=gb_param_grid,
         estimator=gb,
-        scoring="accuracy",
+        scoring="f1",
         verbose=0,
         n_iter=500,
         cv=4,
@@ -148,7 +183,8 @@ def gb_optimized_train_test(X_train, t_train, X_test, t_test, res):
     and evaluate it on (X_test, t_test) with
     your own optimized parameters
     '''
-    c = GradientBoostingClassifier(n_estimators=res["n_estimators"], max_depth=res["max_depth"], learning_rate=res["learning_rate"])
+    #c = GradientBoostingClassifier(n_estimators=res["n_estimators"], max_depth=res["max_depth"], learning_rate=res["learning_rate"], min_samples_split=res["min_samples_split"], min_samples_leaf=res["min_samples_leaf"], max_features=res["max_features"])
+    c = GradientBoostingClassifier(n_estimators=68, max_depth=4, learning_rate=0.2)
     c.fit(X_train, t_train)
     y_pred = c.predict(X_test)
 
@@ -169,17 +205,20 @@ def _create_submission(res):
 
 
 
-(tr_X, tr_y), (tst_X, tst_y), submission_X = get_better_titanic()
+(tr_X, tr_y), (tst_X, tst_y), submission_X = get_titanic()
 
+res = {'n_estimators': 87, 'max_depth': 7, 'learning_rate': 0.48636363636363633}
 
+_create_submission(res)
 
-
+'''
 acc, prec, rec = rfc_train_test(tr_X, tr_y, tst_X, tst_y)
 
 print("Accuracy: ",np.round(acc,4))
 print("Precision: ",np.round(prec,4))
 print("Recall: ",np.round(rec,4))
-'''
+
+
 acc, prec, rec = gb_train_test(tr_X, tr_y, tst_X, tst_y)
 
 print("Accuracy: ",np.round(acc,4))
