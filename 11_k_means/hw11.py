@@ -93,6 +93,21 @@ def update_Mu(
     Returns:
     out (np.ndarray): A [k x f] array of updated prototypes.
     '''
+
+    N, K = R.shape
+    newmu = np.zeros_like(Mu)
+    for k in range(K):
+        res1=0
+        res2=0
+        for n in range(N):
+            res1 += R[n,k]*X[n]
+            res2 += R[n,k]
+        if res2 != 0:
+            newmu[k] = res1/res2
+        else:
+            newmu[k] = Mu[k]
+    return newmu
+    
     ...
 
 
@@ -111,22 +126,48 @@ def k_means(
     nn = sk.utils.shuffle(range(X_standard.shape[0]))
     Mu = X_standard[nn[0: k], :]
 
-    ...
+    Js = []
+
+    for i in range(num_its):
+        distances = distance_matrix(X_standard, Mu)
+        R = determine_r(distances)
+        J = determine_j(R, distances)
+        Js.append(J)
+        Mu = update_Mu(Mu, X_standard, R)
+        ...
 
     # Then we have to "de-standardize" the prototypes
     for i in range(k):
         Mu[i, :] = Mu[i, :] * X_std + X_mean
 
-    ...
+    return Mu, R, Js
 
 
 def _plot_j():
-    ...
+
+    Mu, R, Js = k_means(X, 4, 10)
+    plt.clf
+    plt.plot(Js)
+    plt.title("Evolution of J")
+    plt.ylabel("Value of J")
+    plt.xlabel("Iteration")
+    plt.savefig("11_k_means/1_6_1.png")
+    plt.show()
 
 
 def _plot_multi_j():
-    ...
+    K= [2,3,5,10]
+    plt.clf 
+    for k in K:
+        Mu, R, Js = k_means(X, k, 10)
+        plt.plot(Js, label='k = {}'.format(k))
+    plt.title("Evolution of J")    
+    plt.ylabel("Value of J")
+    plt.xlabel("Iteration")
+    plt.savefig("11_k_means/1_7_1.png")
+    plt.legend(loc='upper center')
 
+    plt.show()
 
 def k_means_predict(
     X: np.ndarray,
@@ -189,7 +230,7 @@ a = np.array([
 b = np.array([
     [0, 0, 0],
     [4, 4, 4]])
-print(distance_matrix(a, b))
+#print(distance_matrix(a, b))
 
 
 
@@ -198,7 +239,7 @@ dist = np.array([
         [0.3, 0.1, 0.2],
         [  7,  18,   2],
         [  2, 0.5,   7]])
-print(determine_r(dist))
+#print(determine_r(dist))
 
 dist = np.array([
         [  1,   2,   3],
@@ -206,7 +247,7 @@ dist = np.array([
         [  7,  18,   2],
         [  2, 0.5,   7]])
 R = determine_r(dist)
-print(determine_j(R, dist))
+#print(determine_j(R, dist))
 
 X = np.array([
     [0, 1, 0],
@@ -219,4 +260,13 @@ R = np.array([
     [1, 0],
     [0, 1],
     [1, 0]])
-print(update_Mu(Mu, X, R))
+#print(update_Mu(Mu, X, R))
+
+X, y, c = load_iris()
+#print(k_means(X, 4, 10))
+
+
+#_plot_j()
+#_plot_multi_j()
+
+k_means_predict(X, y, c, 5)
