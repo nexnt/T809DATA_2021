@@ -122,6 +122,7 @@ def _plot_cum_variance():
     plt.xlabel('Eigenvalue index')
     plt.ylabel('Percentage variance')
     plt.grid()
+    
     plt.savefig("./12_PCA/3_3_1.png")
     plt.show()
 
@@ -137,4 +138,17 @@ X, y, head = load_cancer()
 #_plot_eigen_values()
 #_plot_log_eigen_values()
 
-_plot_cum_variance()
+#_plot_cum_variance()
+
+
+X, y, head = load_cancer()
+stdX = standardize(X)
+plt.clf()
+pca=PCA(n_components=X.shape[1])
+pca.fit_transform(stdX)
+PC_values = np.arange(pca.n_components_) + 1
+plt.plot(PC_values, pca.explained_variance_ratio_, 'o-', linewidth=2, color='blue')
+plt.title('Scree Plot')
+plt.xlabel('Principal Component')
+plt.ylabel('Variance Explained')
+plt.show()
