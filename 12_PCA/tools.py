@@ -7,4 +7,4 @@ def load_cancer():
     train and test sets.
     '''
     cancer = datasets.load_breast_cancer()
-    return cancer.data, cancer.target
+    return cancer.data, cancer.target, cancer.feature_names

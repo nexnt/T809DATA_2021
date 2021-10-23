@@ -164,8 +164,9 @@ def _plot_multi_j():
     plt.title("Evolution of J")    
     plt.ylabel("Value of J")
     plt.xlabel("Iteration")
-    plt.savefig("11_k_means/1_7_1.png")
     plt.legend(loc='upper center')
+    plt.savefig("11_k_means/1_7_1.png")
+
 
     plt.show()
 
@@ -190,12 +191,24 @@ def k_means_predict(
     Returns:
     * the predictions (list)
     '''
-    ...
-
+    nc = len(classes)
+    nt = len(t)
+    Mu, R, Js = k_means(X, k=nc, num_its=num_its)
+    conv = np.zeros([nc, nc])
+    for n in range(nt):
+        conv[t[n], R[n, :].argmax()] += 1
+        cl2=[]
+    for n in range(nt):
+        cl2.append(R[n, :].argmax())
+    pred=[]
+    for i in cl2:
+        pred.append(conv[:, i].argmax())
+    return pred
 
 def _iris_kmeans_accuracy():
-    ...
-
+    y_pred = k_means_predict(X, y, c, 5)
+    print(accuracy_score(y,y_pred))
+    print(confusion_matrix(y,y_pred))
 
 def _my_kmeans_on_image():
     ...
@@ -206,67 +219,51 @@ def plot_image_clusters(n_clusters: int):
     Plot the clusters found using sklearn k-means.
     '''
     image, (w, h) = image_to_numpy()
-    ...
+    c = KMeans(n_clusters=n_clusters)
+    c.fit(image)
+    print(w, h)
+
     plt.subplot('121')
+    plt.title("Original image")
     plt.imshow(image.reshape(w, h, 3))
+    plt.ylabel("Pixels")
+    plt.xlabel("Pixels")
     plt.subplot('122')
+    
+    plt.title("Plot using {} clusters".format(n_clusters))
     # uncomment the following line to run
-    # plt.imshow(kmeans.labels_.reshape(w, h), cmap="plasma")
+    plt.xlabel("Pixels")
+    plt.imshow(c.labels_.reshape(w, h), cmap="plasma")
+    plt.savefig("11_k_means/2_1_{}.png".format(n_clusters))
     plt.show()
 
 
 def _gmm_info():
-    ...
-
+    c = GaussianMixture(n_components=3)
+    c.fit(X)
+    print(c.means_)
+    print(c.covariances_)
+    print(c.weights_)
 
 def _plot_gmm():
-    ...
+    c = GaussianMixture(n_components=3)
+    c.fit(X)
+    
 
-
-a = np.array([
-    [1, 0, 0],
-    [4, 4, 4],
-    [2, 2, 2]])
-b = np.array([
-    [0, 0, 0],
-    [4, 4, 4]])
-#print(distance_matrix(a, b))
-
-
-
-dist = np.array([
-        [  1,   2,   3],
-        [0.3, 0.1, 0.2],
-        [  7,  18,   2],
-        [  2, 0.5,   7]])
-#print(determine_r(dist))
-
-dist = np.array([
-        [  1,   2,   3],
-        [0.3, 0.1, 0.2],
-        [  7,  18,   2],
-        [  2, 0.5,   7]])
-R = determine_r(dist)
-#print(determine_j(R, dist))
-
-X = np.array([
-    [0, 1, 0],
-    [1, 0, 0],
-    [0, 0, 0]])
-Mu = np.array([
-    [0.0, 0.5, 0.1],
-    [0.8, 0.2, 0.3]])
-R = np.array([
-    [1, 0],
-    [0, 1],
-    [1, 0]])
-#print(update_Mu(Mu, X, R))
+    plot_gmm_results(X,c.predict(X),c.means_,c.covariances_)
 
 X, y, c = load_iris()
 #print(k_means(X, 4, 10))
-
+#_plot_gmm()
 
 #_plot_j()
 #_plot_multi_j()
 
-k_means_predict(X, y, c, 5)
+#print(k_means_predict(X, y, c, 5))
+
+#_iris_kmeans_accuracy()
+
+
+#plot_image_clusters(20)
+
+_gmm_info()

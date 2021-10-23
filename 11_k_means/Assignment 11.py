@@ -232,4 +232,4 @@ X, y, c = load_iris()
 #_plot_j()
 #_plot_multi_j()
 
-k_means_predict(X, y, c, 5)
+print(k_means_predict(X, y, c, 5))
