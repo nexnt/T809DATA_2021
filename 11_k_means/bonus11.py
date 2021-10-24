@@ -1,3 +1,4 @@
+from math import nan
 import numpy as np
 import sklearn as sk
 from sklearn.cluster import KMeans
@@ -40,7 +41,7 @@ from sklearn.linear_model import LogisticRegression, LogisticRegressionCV
 from sklearn.model_selection import StratifiedKFold
 
 from tools import load_iris, image_to_numpy, plot_gmm_results
-
+import seaborn as sns
 
 def get_even_better_titanic():
     '''
@@ -219,6 +220,17 @@ def get_even_better_titanic():
     X = X_full[:len(train)]
     submission_X = X_full[len(train):]
     y = train.Survived
+    '''
+    X_PCA = X
+    X_PCA['Survived']= y
+
+    X_PCA.corr().to_csv("corr.csv")
+    cor = X_PCA.corr()
+    print(cor)
+    cor_target = abs(cor["Survived"])
+    relevant_features = cor_target[cor_target>0.5]
+    print(relevant_features)
+    '''
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=.3, random_state=5, stratify=y)
 
@@ -584,13 +596,14 @@ def k_means_predict(
 
     R = pd.DataFrame(np.argmax(R, axis=1), columns = ['Cluster'])
     R['Survived'] = t
+
     survival_mapper = R.groupby('Cluster')['Survived'].mean().round().astype(np.int).to_dict()
     R['group_survived'] = R.Cluster.map(survival_mapper)
     survival_map = R.groupby('Cluster')['Survived'].mean().round().astype(np.int).to_dict()
 
-    print((R['Survived'] == R['group_survived']).mean())
+    accuracy = (R['Survived'] == R['group_survived']).mean()
     
-
+    # predict acc for sub
     distances = distance_matrix(Xsubstd, Mu)
     R_sub = determine_r(distances)
     
@@ -599,58 +612,21 @@ def k_means_predict(
     predict['Survived'] = predict.Cluster.map(survival_map)
     predict['PassengerId'] = test['PassengerId']
     predict = predict[['PassengerId', 'Survived']].sort_values('PassengerId').reset_index(drop=True)
+    ### predict tst acc
+    distances = distance_matrix(Xtststd, Mu)
+    R_tst = determine_r(distances)
 
-    
+    R_tst = pd.DataFrame(np.argmax(R_tst, axis=1), columns = ['Cluster'])
+    R_tst['Survived'] = tst_y
 
+    survival_mapper = R_tst.groupby('Cluster')['Survived'].mean().round().astype(np.int).to_dict()
+    R_tst['group_survived'] = R_tst.Cluster.map(survival_mapper)
+    survival_map = R_tst.groupby('Cluster')['Survived'].mean().round().astype(np.int).to_dict()
 
-    return R, predict
+    accuracy = (R_tst['Survived'] == R_tst['group_survived']).mean()
 
-def _iris_kmeans_accuracy():
-    y_pred = k_means_predict(X, y, c, 5)
-    print(accuracy_score(y,y_pred))
-    print(confusion_matrix(y,y_pred))
+    return R, predict, accuracy, Js
 
-def _my_kmeans_on_image():
-    ...
-
-
-def plot_image_clusters(n_clusters: int):
-    '''
-    Plot the clusters found using sklearn k-means.
-    '''
-    image, (w, h) = image_to_numpy()
-    c = KMeans(n_clusters=n_clusters)
-    c.fit(image)
-    print(w, h)
-
-    plt.subplot('121')
-    plt.title("Original image")
-    plt.imshow(image.reshape(w, h, 3))
-    plt.ylabel("Pixels")
-    plt.xlabel("Pixels")
-    plt.subplot('122')
-    
-    plt.title("Plot using {} clusters".format(n_clusters))
-    # uncomment the following line to run
-    plt.xlabel("Pixels")
-    plt.imshow(c.labels_.reshape(w, h), cmap="plasma")
-    plt.savefig("11_k_means/2_1_{}.png".format(n_clusters))
-    plt.show()
-
-
-def _gmm_info():
-    c = GaussianMixture(n_components=3)
-    c.fit(X)
-    print(c.means_)
-    print(c.covariances_)
-    print(c.weights_)
-
-def _plot_gmm():
-    c = GaussianMixture(n_components=3)
-    c.fit(X)
-    
-
-    plot_gmm_results(X,c.predict(X),c.means_,c.covariances_)
 
 def kmeans_sk(
     X: np.ndarray,
@@ -677,14 +653,50 @@ def kmeans_sk(
     accuracy = (R['Survived'] == R['group_survived']).mean()
     print(accuracy)
 
-(tr_X, tr_y), (tst_X, tst_y), submission_X = get_titanic()
+(tr_X, tr_y), (tst_X, tst_y), submission_X = get_better_titanic()
+
+
 
 #_plot_multi_j()
 
-pred, predict = k_means_predict(tr_X.to_numpy(), tr_y.to_numpy(), [0,1], 20, 70)
+tst_y=tst_y.to_numpy()
 
-build_kaggle_submission(predict['Survived'])
+#pred, predict = k_means_predict(tr_X, tr_y, [0,1], 20, 50)
+#pred, predict, accuracy = k_means_predict(tr_X.to_numpy(), tr_y.to_numpy(), [0,1], 20, 100)
+#print(accuracy)
+
+accuracys = []
+ks = []
+Jss =  []
+for k in range(10,300,10):
+    pred, predict, accuracy, Js = k_means_predict(tr_X.to_numpy(), tr_y.to_numpy(), [0,1], 10, k)
+    accuracys.append(accuracy)
+    ks.append(k)
+    Jss.append(Js)
+    print(accuracy)
+
+plt.plot(ks,accuracys)
+
+
+plt.ylabel("Accuracy on testdata")
+plt.xlabel("Number of Clusters")
+plt.savefig("11_k_means/Bonus_1.png")
+plt.show()
+plt.clf
+for i in range(len(Jss)):
+
+    plt.plot(range(0,len(Jss[i])),Jss[i], label='k = {}'.format(ks[i]))
+
+
+plt.ylabel("Value of J")
+plt.xlabel("Iteration")
+plt.legend(loc='upper right')
+plt.savefig("11_k_means/Bonus_2.png")
+plt.show()
+
 '''
+build_kaggle_submission(predict['Survived'])
+
 accuracy = (pred['Survived'] == pred['group_survived']).mean()
 print(accuracy)
 
